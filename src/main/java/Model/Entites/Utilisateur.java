@@ -12,7 +12,7 @@ public class Utilisateur {
 
     private String mdp;
 
-    private Role role;
+    private Tache role;
 
 
 
@@ -68,8 +68,8 @@ public class Utilisateur {
 
 
 
-    public Role getRole() { return role; }
+    public Tache getRole() { return role; }
 
-    public void setRole(Role role) { this.role = role; }
+    public void setRole(Tache role) { this.role = role; }
 
 }

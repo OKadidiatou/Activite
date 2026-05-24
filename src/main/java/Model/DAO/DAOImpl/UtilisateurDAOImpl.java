@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.DAO.DAOInter.UtilisateurInter;
-import Model.Entites.Role;
+import Model.Entites.Tache;
 import Model.Entites.Utilisateur;
 import Model.Enumeration.TypeRole;
 import Model.InterfaceDB.Database;
@@ -213,7 +213,7 @@ public class UtilisateurDAOImpl	 implements UtilisateurInter {
                 }
             }
             
-            Role role = new Role(roleId, typeRole);
+            Tache role = new Tache(roleId, typeRole);
             u.setRole(role);
         }
 

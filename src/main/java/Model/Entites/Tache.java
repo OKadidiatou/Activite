@@ -4,7 +4,7 @@ import Model.Enumeration.TypeRole;
 
 
 
-public class Role {
+public class Tache {
 
     private int id;
 
@@ -12,11 +12,11 @@ public class Role {
 
 
 
-    public Role() {}
+    public Tache() {}
 
 
 
-    public Role(int id, TypeRole nom) {
+    public Tache(int id, TypeRole nom) {
 
         this.id = id;
 

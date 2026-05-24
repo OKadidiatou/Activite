@@ -1,5 +1,21 @@
 package Model.Service.ServiceInter;
 
-public class ActiviteService {
+import java.util.List;
+
+import Model.Entites.Activite;
+
+public interface ActiviteService {
+		
+		void ajouter(Activite a);
+
+	    void modifier(Activite a);
+
+	    void supprimer(int id);
+
+	    List<Activite> tousList();
+
+	    Activite lire(int id);
+
+	
 
 }
