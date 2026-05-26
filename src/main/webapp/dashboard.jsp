@@ -22,8 +22,7 @@
             <img src="assets/logo.png" alt="logo">
         </div>
 
-        <ul class="menu">
-
+        <ul class="menu"> 
             <li class="active">
                 <i class="fa-solid fa-house"></i>
                 <span>Tableau de bord</span>
@@ -41,10 +40,10 @@
 
         </ul>
 
-        <div class="logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Déconnexion</span>
-        </div>
+        <div class="d-flex align-items-center">
+                <i class="bi bi-box-arrow-left text-white me-3 fs-3"></i>
+                <button class="btn-logout">Deconnexion</button>
+            </div>
 
     </div>
 
