@@ -2,70 +2,59 @@ package Model.Entites;
 
 import java.util.Date;
 
-
-
 public class Favoris {
 
-	private int id;
+    private int id;
 
-	private Utilisateur utilisateur;
+    private Utilisateur utilisateur;
 
-	private Activite activite;
+    private Activite activite;
 
-	private Date dateAjout;
+    private Date dateAjout;
 
-	public Favoris() {
-
-		// TODO Auto-generated constructor stub
-
-	}
-
-	
-
-	
-
-	public int getId() {
-
-        return id;
-
+    public Favoris() {
     }
 
-	public Utilisateur getUtilisateur() {
+    public Favoris(int id,
+                   Utilisateur utilisateur,
+                   Activite activite,
+                   Date dateAjout) {
 
-		return utilisateur;
+        this.id = id;
+        this.utilisateur = utilisateur;
+        this.activite = activite;
+        this.dateAjout = dateAjout;
+    }
 
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setUtilisateur(Utilisateur utilisateur) {
+    public void setId(int id) {
+        this.id = id;
+    }
 
-		this.utilisateur = utilisateur;
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
 
-	}
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
 
-	public Activite getActivite() {
+    public Activite getActivite() {
+        return activite;
+    }
 
-		return activite;
+    public void setActivite(Activite activite) {
+        this.activite = activite;
+    }
 
-	}
+    public Date getDateAjout() {
+        return dateAjout;
+    }
 
-	public void setActivite(Activite activite) {
-
-		this.activite = activite;
-
-	}
-
-	public Date getDateAjout() {
-
-		return dateAjout;
-
-	}
-
-	public void setDateAjout(Date dateAjout) {
-
-		this.dateAjout = dateAjout;
-
-	}
-
-
-
+    public void setDateAjout(Date dateAjout) {
+        this.dateAjout = dateAjout;
+    }
 }

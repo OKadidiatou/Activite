@@ -8,23 +8,65 @@ import Model.DAO.DAOInter.TacheInter;
 import Model.DAO.DAOInter.UtilisateurInter;
 import Model.Entites.Tache;
 import Model.Entites.Utilisateur;
+import Model.Enumeration.TypeRole;
 import Model.Service.ServiceInter.UtilisateurServiceInter;
 
 
 
-public abstract class UtilisateurServiceImpl implements UtilisateurServiceInter {
+public class UtilisateurServiceImpl implements UtilisateurServiceInter {   // ← Enlevé "abstract"
 
-	protected final UtilisateurInter utilisateurDAO;
+    protected final UtilisateurInter utilisateurDAO;
+    protected final TacheInter roleInter;
 
-	protected final TacheInter roleInter;
-	
-	public UtilisateurServiceImpl(UtilisateurInter utilisateurDAO,TacheInter roleInter) {
-		this.utilisateurDAO = utilisateurDAO;
-		this.roleInter = roleInter;
-	}
+    public UtilisateurServiceImpl(UtilisateurInter utilisateurDAO, TacheInter roleInter) {
+        this.utilisateurDAO = utilisateurDAO;
+        this.roleInter = roleInter;
+    }
 
-	@Override
-	public abstract void inscription(Utilisateur utilisateur);
+    @Override
+    public void inscription(Utilisateur utilisateur) {
+
+        if (utilisateur == null) {
+
+            throw new RuntimeException(
+                    "Utilisateur invalide"
+            );
+        }
+
+        if (utilisateur.getTelephone() == null
+                || utilisateur.getTelephone().trim().isEmpty()) {
+
+            throw new RuntimeException(
+                    "Téléphone obligatoire"
+            );
+        }
+
+        Utilisateur existant =
+                utilisateurDAO.trouverParTelephone(
+                        utilisateur.getTelephone()
+                );
+
+        if (existant != null) {
+
+            throw new RuntimeException(
+                    "Ce numéro existe déjà"
+            );
+        }
+
+        if (utilisateur.getRole() == null) {
+
+            throw new RuntimeException(
+                    "Aucun rôle associé à l'utilisateur"
+            );
+        }
+
+        utilisateurDAO.creer(utilisateur);
+
+        System.out.println(
+                "✅ Utilisateur enregistré : "
+                        + utilisateur.getTelephone()
+        );
+    }
 
 	@Override
 	public Utilisateur connexion(String telephone, String mdp) {

@@ -23,30 +23,84 @@ public class UtilisateurDAOImpl	 implements UtilisateurInter {
 
     @Override
     public void creer(Utilisateur utilisateur) {
-        String sql = "INSERT INTO utilisateur(nom, prenom, telephone, mdp, roleId) VALUES (?, ?, ?, ?, ?)";
+
+        String sql =
+                "INSERT INTO utilisateur(nom,prenom,telephone,mdp,roleId)"
+                        + " VALUES(?,?,?,?,?)";
 
         try (
-            Connection conn = db.connexion();
-            PreparedStatement pr = conn.prepareStatement(sql)
+
+                Connection conn =
+                        db.connexion();
+
+                PreparedStatement pr =
+                        conn.prepareStatement(sql)
+
         ) {
 
-            pr.setString(1, utilisateur.getNom());
-            pr.setString(2, utilisateur.getPrenom());
-            pr.setString(3, utilisateur.getTelephone());
-            pr.setString(4, utilisateur.getMdp());
-            
-            pr.setInt(5, utilisateur.getRole().getId());
+            System.out.println(
+                    "Insertion utilisateur..."
+            );
 
-            int rows = pr.executeUpdate();
+            System.out.println(
+                    utilisateur.getNom()
+            );
 
-            if (rows > 0) {
-                System.out.println("Utilisateur créé avec succès !");
-            } else {
-                System.out.println("Aucun utilisateur créé.");
-            }
+            System.out.println(
+                    utilisateur.getPrenom()
+            );
 
-        } catch (SQLException e) {
-            System.err.println("Erreur création utilisateur : " + e.getMessage());
+            System.out.println(
+                    utilisateur.getTelephone()
+            );
+
+            System.out.println(
+                    utilisateur.getRole().getId()
+            );
+
+            pr.setString(
+                    1,
+                    utilisateur.getNom()
+            );
+
+            pr.setString(
+                    2,
+                    utilisateur.getPrenom()
+            );
+
+            pr.setString(
+                    3,
+                    utilisateur.getTelephone()
+            );
+
+            pr.setString(
+                    4,
+                    utilisateur.getMdp()
+            );
+
+            pr.setInt(
+                    5,
+                    utilisateur.getRole().getId()
+            );
+
+            int lignes =
+                    pr.executeUpdate();
+
+            System.out.println(
+                    "Lignes insérées : "
+                            + lignes
+            );
+
+        }
+
+        catch (SQLException e) {
+
+            System.out.println(
+                    "Erreur SQL : "
+                            + e.getMessage()
+            );
+
+            e.printStackTrace();
         }
     }
 
