@@ -4,8 +4,9 @@ import java.util.List;
 
 import Model.DAO.DAOInter.ActiviteInter;
 import Model.Entites.Activite;
+import Model.Service.ServiceInter.ActiviteServiceInter;
 
-public class ActiviteService {
+public class ActiviteService implements ActiviteServiceInter {
 	
 	private ActiviteInter activiteDAO;
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import Model.Entites.Activite;
 
-public interface ActiviteService {
+public interface ActiviteServiceInter {
 		
 		void ajouter(Activite a);
 
