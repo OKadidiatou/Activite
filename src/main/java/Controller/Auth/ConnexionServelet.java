@@ -33,7 +33,7 @@ public class ConnexionServelet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 request.getRequestDispatcher(
-	                "/views/auth/connexion.jsp")
+	                "/connexion.jsp")
 	                .forward(request, response);
 	}
 
@@ -52,15 +52,15 @@ public class ConnexionServelet extends HttpServlet {
 			
 			switch (utilisateur.getRole().getNom()) {
 			case CLIENT: {
-				response.sendRedirect(request.getContextPath() + "/views/client/dashboardClient.jsp");
+				response.sendRedirect(request.getContextPath() + "/DashboardClient.jsp");
 				break;
 			}
 			case AGENT_TERRAIN: {
-				response.sendRedirect(request.getContextPath() + "/views/agent/dashboardAgent.jsp");
+				response.sendRedirect(request.getContextPath() + "/dashboardAgent.jsp");
 				break;
 			}
 			case ADMIN: {
-				response.sendRedirect(request.getContextPath() + "/views/admin/dashboardAdmin.jsp");
+				response.sendRedirect(request.getContextPath() + "/dashboardAdmin.jsp");
 			}
 			
 			}
