@@ -37,7 +37,7 @@ public class InscriptionServelet extends HttpServlet {
             throws ServletException, IOException {
 
         request.getRequestDispatcher(
-                "/views/auth/inscription.jsp"
+                "/inscription.jsp"
         ).forward(request, response);
     }
 
@@ -69,7 +69,7 @@ public class InscriptionServelet extends HttpServlet {
             );
 
             request.getRequestDispatcher(
-                    "/views/auth/inscription.jsp"
+                    "/inscription.jsp"
             ).forward(request, response);
 
             return;
@@ -125,7 +125,7 @@ public class InscriptionServelet extends HttpServlet {
             );
 
             request.getRequestDispatcher(
-                    "/views/auth/inscription.jsp"
+                    "/inscription.jsp"
             ).forward(request, response);
         }
 
