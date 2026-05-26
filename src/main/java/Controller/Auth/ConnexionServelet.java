@@ -5,29 +5,36 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
+
+import Model.Entites.Utilisateur;
+import Model.Service.ServiceInter.UtilisateurServiceInter;
 
 /**
  * Servlet implementation class ConnexionServelet
  */
-@WebServlet("/ConnexionServelet")
+@WebServlet("/connexion")
 public class ConnexionServelet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ConnexionServelet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+   private UtilisateurServiceInter utilisateurServiceInter;
+   
+   @Override
+   public void init() throws ServletException {
+	   utilisateurServiceInter =
+			   ( UtilisateurServiceInter)
+			   getServletContext().getAttribute("utilisateurServiceInter");
+   }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		 request.getRequestDispatcher(
+	                "/views/auth/connexion.jsp")
+	                .forward(request, response);
 	}
 
 	/**
@@ -35,7 +42,29 @@ public class ConnexionServelet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String telephone = request.getParameter("telephone");
+		String mdp = request.getParameter("mdp");
+		
+		Utilisateur utilisateur = utilisateurServiceInter.connexion(telephone, mdp);
+		if(utilisateur != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("utilisateurConnecte", utilisateur);
+			
+			switch (utilisateur.getRole().getNom()) {
+			case CLIENT: {
+				response.sendRedirect(request.getContextPath() + "/views/client/dashboardClient.jsp");
+				break;
+			}
+			case AGENT_TERRAIN: {
+				response.sendRedirect(request.getContextPath() + "/views/agent/dashboardAgent.jsp");
+				break;
+			}
+			case ADMIN: {
+				response.sendRedirect(request.getContextPath() + "/views/admin/dashboardAdmin.jsp");
+			}
+			
+			}
+		}
 	}
 
 }

@@ -11,30 +11,45 @@ public class MySQL implements Database {
 
 	@Override
 	public Connection connexion() {
-		// TODO Auto-generated method stub
-		String url = "jdbc:mysql://localhost:3306/application_recommandation";
-		String username = "root";
-		String passwd = "AbdoulayeDiallo@223";
 
-		try {
-			conn = DriverManager.getConnection(url, username, passwd);
-		} catch (SQLException e) {
-			System.out.println("Erreur: " + e.getMessage());
-		}
-		return conn;
+	    String url =
+	        "jdbc:mysql://localhost:3306/application_recommandation";
+
+	    String username = "root";
+	    String passwd = "AbdoulayeDiallo@223";
+
+	    try {
+
+	        Class.forName(
+	            "com.mysql.cj.jdbc.Driver"
+	        );
+
+	        conn = DriverManager.getConnection(
+	                url,
+	                username,
+	                passwd
+	        );
+
+	        System.out.println(
+	            "Connexion MySQL réussie"
+	        );
+
+	    } catch (Exception e) {
+
+	        System.out.println(
+	            "Erreur connexion : "
+	            + e.getMessage()
+	        );
+
+	        e.printStackTrace();
+	    }
+
+	    return conn;
 	}
 
 	@Override
 	public void deconnexion(Connection conn) {
 		// TODO Auto-generated method stub
-		if (conn == null) {
-			return;
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			System.out.println("Erreur: " + e.getMessage());
-		}
 		
 	}
 
