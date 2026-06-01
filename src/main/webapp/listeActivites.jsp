@@ -1,4 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="Model.Entites.Activite" %>
+<%@ page import="Model.Entites.Utilisateur" %>
+<%
+    // 1. Récupération sécurisée de l'utilisateur connecté depuis la session
+    Utilisateur user = (Utilisateur) session.getAttribute("utilisateurConnecte");
+    if (user == null) {
+        response.sendRedirect("connexion.jsp");
+        return;
+    }
+
+    // 2. Récupération de la liste des activités envoyée par le Servlet
+    List<Activite> listActivites = (List<Activite>) request.getAttribute("activites");
+    int totalActivites = (listActivites != null) ? listActivites.size() : 0;
+%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,19 +25,20 @@
     
     <style>
         :root {
-            --sidebar-bg: #1a233d;      /* Bleu très sombre de ma maquette */
+            --sidebar-bg: #1a233d;      /* Bleu très sombre de la maquette */
             --sidebar-hover: #2c3a5e;   /* Couleur de survol et élément actif */
-            --main-bg: #eef2f7;         /* Fond gris très clair extérieur */
-            --text-gray: #a0aec0;       /* Couleur du texte de la sidebar */
+            --main-bg: #cbd5e1;         /* Fond gris de la page */
         }
 
         body {
-            background-color: var(--sidebar-bg); /* Pour simuler la bordure extérieure sombre */
+            background-color: var(--sidebar-bg); /* Contour extérieur sombre */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Conteneur global façon application desktop */
+        /* Conteneur global */
         .app-container {
             min-height: 100vh;
             display: flex;
@@ -52,6 +68,7 @@
 
         .brand-logo img {
             width: 70px;
+            height: auto;
         }
 
         .nav-menu {
@@ -82,9 +99,8 @@
             color: white;
         }
 
-        /* Style pour l'élément actif "Liste Activité" */
         .nav-item-link.active {
-            background-color: #cbd5e1; /* Gris/bleu clair de ma maquette */
+            background-color: #cbd5e1;
             color: #1a233d !important;
             font-weight: bold;
         }
@@ -97,14 +113,19 @@
             font-weight: bold;
             border: none;
             width: 80%;
+            transition: background-color 0.2s;
         }
 
-        /* Contenu principal de droite (Panneau arrondi blanc) */
+        .btn-logout:hover {
+            background-color: #94a3b8;
+        }
+
+        /* Contenu principal de droite (Panneau blanc) */
         .main-panel {
             flex: 1;
             background-color: white;
-            margin: 15px 15px 15px 0; /* Marge pour l'effet de cadre */
-            border-radius: 35px;       /* Gros arrondis de la maquette */
+            margin: 15px 15px 15px 0;
+            border-radius: 35px;
             padding: 40px;
             display: flex;
             flex-direction: column;
@@ -126,7 +147,6 @@
             margin-right: 10px;
         }
 
-        /* Bouton Filtrer par */
         .btn-filter {
             border: 1px solid #e2e8f0;
             background: white;
@@ -136,39 +156,62 @@
             color: #4a5568;
         }
 
-        /* Style des lignes / "cartes" du tableau */
+        /* En-têtes de colonnes stricts (Nom, Description, Action) */
+        .table-header-custom {
+            font-weight: bold;
+            color: #000;
+            padding: 0 25px 15px 25px;
+            font-size: 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* Scrollbar discret pour naviguer à travers les 60 lignes */
+        .scrollable-activity-list {
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-top: 15px;
+        }
+
+        .scrollable-activity-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        .scrollable-activity-list::-webkit-scrollbar-thumb {
+            background-color: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        /* Cartes de lignes identiques à ta maquette */
         .activity-row {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 18px;
-            padding: 15px 20px;
+            padding: 18px 25px;
             margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .activity-row:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+            border-color: #cbd5e1;
         }
 
-        .table-header-custom {
-            font-weight: bold;
-            color: #000;
-            padding: 0 20px 10px 20px;
-        }
-
+        /* Bouton "Voir détails" exact */
         .btn-details {
-            background-color: #a3a3a3; /* Gris des boutons */
-            color: white;
+            background-color: #cbd5e1; 
+            color: #1a233d;
             border-radius: 20px;
             padding: 8px 24px;
             border: none;
-            font-weight: 500;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
         .btn-details:hover {
-            background-color: #737373;
+            background-color: #1a233d;
             color: white;
         }
     </style>
@@ -180,35 +223,35 @@
         <div class="sidebar">
             <div>
                 <div class="brand-logo">
-    <img src="assets/images/logo.png" alt="Mon_Activite Logo" style="max-width: 80%; max-height: 80%; object-fit: contain;">
-</div>
+                    <img src="assets/logo.png" alt="Mon_Activite Logo">
+                </div>
 
                 <ul class="nav-menu">
-                    <li><a href="#" class="nav-item-link"><i class="bi bi-house-door"></i> Tableau de bord</a></li>
+                    <li><a href="client" class="nav-item-link"><i class="bi bi-house-door"></i> Tableau de bord</a></li>
                     <li><a href="CreerProfilServelet" class="nav-item-link"><i class="bi bi-people"></i> Renseigner Profil</a></li>
                     <li><a href="#" class="nav-item-link"><i class="bi bi-cash-coin"></i> Simuler Revenus</a></li>
-                    <li><a href="#" class="nav-item-link active"><i class="bi bi-grid-1x2"></i> Liste Activité</a></li>
+                    <li><a href="ListeActivitesServelet" class="nav-item-link active"><i class="bi bi-grid-1x2"></i> Liste Activité</a></li>
                     <li><a href="#" class="nav-item-link"><i class="bi bi-check-square"></i> Recommandation</a></li>
                     <li><a href="#" class="nav-item-link"><i class="bi bi-heart"></i> Favoris</a></li>
-                    <li><a href="ModifierProfilServelet" class="nav-item-link"><i class="bi bi-person-gear"></i> Voir Profil</a></li>
+                    <li><a href="VoirProfilServlet" class="nav-item-link"><i class="bi bi-person"></i> Voir Profil</a></li>
                 </ul>
             </div>
 
             <div class="d-flex align-items-center">
                 <i class="bi bi-box-arrow-left text-white me-3 fs-3"></i>
-                <button class="btn-logout">Deconnexion</button>
+                <a href="DeconnexionServelet" class="btn btn-logout text-decoration-none text-center">Déconnexion</a>
             </div>
         </div>
 
         <div class="main-panel">
             
             <div>
-                <div class="d-flex justify-content-between align-items-center mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1 class="fw-bold mb-0" style="color: #000; font-size: 36px;">Liste des Activités</h1>
                     
                     <div class="user-profile-badge">
                         <i class="bi bi-person-circle"></i>
-                        <span class="fw-semibold text-dark">Midouzer</span>
+                        <span class="fw-semibold text-dark"><%= user.getPrenom() %></span>
                     </div>
                 </div>
 
@@ -218,56 +261,43 @@
                     </button>
                 </div>
 
-                <div class="row table-header-custom align-items-center mb-2">
-                    <div class="col-md-3">Nom</div>
-                    <div class="col-md-3">Catégorie</div>
-                    <div class="col-md-4">Description</div>
-                    <div class="col-md-2 text-end"></div>
+                <div class="row table-header-custom align-items-center mx-0">
+                    <div class="col-md-4">Nom</div>
+                    <div class="col-md-5">Description</div>
+                    <div class="col-md-3 text-end">Action</div>
                 </div>
 
-                <div class="activity-list">
-                    
-                    <div class="row activity-row align-items-center">
-                        <div class="col-md-3 fw-semibold text-dark">Fabrication savon</div>
-                        <div class="col-md-3 text-secondary">Fabrication</div>
-                        <div class="col-md-4 text-secondary">Podruction de savon</div>
-                        <div class="col-md-2 text-end">
-                            <button class="btn btn-details">Voir détails</button>
-                        </div>
-                    </div>
-
-                    <div class="row activity-row align-items-center">
-                        <div class="col-md-3 fw-semibold text-dark">Fast-food local</div>
-                        <div class="col-md-3 text-secondary">Vente rapide</div>
-                        <div class="col-md-4 text-secondary">Préparation rapide</div>
-                        <div class="col-md-2 text-end">
-                            <button class="btn btn-details">Voir détails</button>
-                        </div>
-                    </div>
-
-                    <div class="row activity-row align-items-center">
-                        <div class="col-md-3 fw-semibold text-dark">Garage moto</div>
-                        <div class="col-md-3 text-secondary">Réparation</div>
-                        <div class="col-md-4 text-secondary">Réparation moto</div>
-                        <div class="col-md-2 text-end">
-                            <button class="btn btn-details">Voir détails</button>
-                        </div>
-                    </div>
-
-                    <div class="row activity-row align-items-center">
-                        <div class="col-md-3 fw-semibold text-dark">Gestion commerce</div>
-                        <div class="col-md-3 text-secondary">Commerce</div>
-                        <div class="col-md-4 text-secondary">Gestion de stocks</div>
-                        <div class="col-md-2 text-end">
-                            <button class="btn btn-details">Voir détails</button>
-                        </div>
-                    </div>
-
+                <div class="scrollable-activity-list">
+                    <% 
+                        if (listActivites != null && !listActivites.isEmpty()) {
+                            for (Activite act : listActivites) {
+                    %>
+                                <div class="row activity-row align-items-center mx-0">
+                                    <div class="col-md-4 fw-semibold text-dark" style="font-size: 16px;"><%= act.getNom() %></div>
+                                    
+                                    <div class="col-md-5 text-secondary text-truncate" title="<%= act.getDescription() %>" style="font-size: 15px;">
+                                        <%= (act.getDescription() != null) ? act.getDescription() : "Aucune description" %>
+                                    </div>
+                                    
+                                    <div class="col-md-3 text-end">
+                                        <a href="DetailsActiviteServlet?id=<%= act.getId() %>" class="btn btn-details text-decoration-none">Voir détails</a>
+                                    </div>
+                                </div>
+                    <% 
+                            }
+                        } else {
+                    %>
+                            <div class="text-center p-5 text-muted">
+                                Aucun élément trouvé dans le catalogue.
+                            </div>
+                    <% 
+                        }
+                    %>
                 </div>
             </div>
 
-            <div class="text-center pt-3">
-                <span class="fw-bold text-dark">Total d'activité : 1 sur 28</span>
+            <div class="text-center pt-3 border-top mt-3">
+                <span class="fw-bold text-dark">Total d'activités : <%= totalActivites %></span>
             </div>
 
         </div>

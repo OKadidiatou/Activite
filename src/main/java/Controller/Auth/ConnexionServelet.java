@@ -52,8 +52,11 @@ public class ConnexionServelet extends HttpServlet {
 			
 			switch (utilisateur.getRole().getNom()) {
 			case CLIENT: {
-				response.sendRedirect(request.getContextPath() + "/DashboardClient.jsp");
-				break;
+			    response.sendRedirect(
+			            request.getContextPath()
+			            + "/client"
+			    );
+			    break;
 			}
 			case AGENT_TERRAIN: {
 				response.sendRedirect(request.getContextPath() + "/dashboardAgent.jsp");
