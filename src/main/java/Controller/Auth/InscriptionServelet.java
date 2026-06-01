@@ -89,7 +89,7 @@ public class InscriptionServelet extends HttpServlet {
 
             Tache roleClient = new Tache();
 
-            roleClient.setId(7); // Adapter selon ta table role
+            roleClient.setId(1); // Adapter selon ta table role
 
             roleClient.setNom(
                     TypeRole.CLIENT
