@@ -1,8 +1,8 @@
 package Model.Entites;
 
+import java.util.Objects;
+
 public class Competence {
-
-
 
 	private int id;
 
@@ -10,15 +10,32 @@ public class Competence {
 
 	private String description;
 
-	
-
 	public Competence() {
 
 		// TODO Auto-generated constructor stub
 
 	}
+	
+	@Override
+	public boolean equals(Object o) {
 
+		if (this == o) {
+			return true;
+		}
 
+		if (!(o instanceof Competence)) {
+			return false;
+		}
+
+		Competence competence = (Competence) o;
+
+		return Objects.equals(id, competence.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 
 	public Competence(int id, String nom, String description) {
 
@@ -30,15 +47,11 @@ public class Competence {
 
 	}
 
-
-
 	public int getId() {
 
 		return id;
 
 	}
-
-
 
 	public void setId(int id) {
 
@@ -46,15 +59,11 @@ public class Competence {
 
 	}
 
-
-
 	public String getNom() {
 
 		return nom;
 
 	}
-
-
 
 	public void setNom(String nom) {
 
@@ -62,22 +71,16 @@ public class Competence {
 
 	}
 
-
-
 	public String getDescription() {
 
 		return description;
 
 	}
 
-
-
 	public void setDescription(String description) {
 
 		this.description = description;
 
 	}
-
-		
 
 }

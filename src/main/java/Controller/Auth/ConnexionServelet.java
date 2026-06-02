@@ -52,6 +52,8 @@ public class ConnexionServelet extends HttpServlet {
 			
 			switch (utilisateur.getRole().getNom()) {
 			case CLIENT: {
+				System.out.println("context path==========="+request.getContextPath());
+//				System.out.println("context path==========="+con.getContextPath());
 			    response.sendRedirect(
 			            request.getContextPath()
 			            + "/client"

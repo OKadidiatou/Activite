@@ -5,11 +5,11 @@ import Model.Entites.Profil;
 public interface ProfilServiceInter {
 	void creerProfil(Profil profil);
 
-    Profil obtenirProfilParId(int id);
+	Profil obtenirProfilParId(int id);
 
-    Profil obtenirProfilParUtilisateur(int utilisateurId);
+	Profil obtenirProfilParUtilisateur(int utilisateurId);
 
-    void modifierProfil(Profil profil);
+	void modifierProfil(Profil profil);
 
-    void supprimerProfil(int id);
+	void supprimerProfil(int id);
 }

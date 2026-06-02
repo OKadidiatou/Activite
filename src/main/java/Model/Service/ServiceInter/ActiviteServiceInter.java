@@ -5,17 +5,15 @@ import java.util.List;
 import Model.Entites.Activite;
 
 public interface ActiviteServiceInter {
-		
-		void ajouter(Activite a);
 
-	    void modifier(Activite a);
+	void ajouter(Activite a);
 
-	    void supprimer(int id);
+	void modifier(Activite a);
 
-	    List<Activite> tousList();
+	void supprimer(int id);
 
-	    Activite lire(int id);
+	List<Activite> tousList();
 
-	
+	Activite lire(int id);
 
 }

@@ -7,5 +7,6 @@ import Model.Entites.Competence;
 
 public interface ActiviteCompetenceInter {
 	public void creer(Activite activite);
+
 	public List<Competence> lire(Activite activite);
 }

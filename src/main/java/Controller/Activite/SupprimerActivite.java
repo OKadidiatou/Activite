@@ -15,49 +15,36 @@ import Model.InterfaceDB.Database;
 import Model.Service.ServiceImpl.ActiviteService;
 import Model.Utils.ConnexionDB.MySQL;
 
-
 @WebServlet("/SupprimerActivite")
 public class SupprimerActivite extends HttpServlet {
-	//private static final long serialVersionUID = 1L;
-       
-    private ActiviteService activiteService;
+	// private static final long serialVersionUID = 1L;
 
-    @Override
-    public void init() {
+	private ActiviteService activiteService;
 
-    	 Database db = new MySQL();
+	@Override
+	public void init() {
 
-    	    CompetenceDAOImpl competenceDAO =
-    	            new CompetenceDAOImpl(db);
+		Database db = new MySQL();
 
-    	    ActiviteCompetenceDAOImpl activiteCompetenceDAO =
-    	            new ActiviteCompetenceDAOImpl(db, competenceDAO);
+		CompetenceDAOImpl competenceDAO = new CompetenceDAOImpl(db);
 
-    	    ActiviteDAOImpl dao =
-    	            new ActiviteDAOImpl(db, activiteCompetenceDAO);
+		ActiviteCompetenceDAOImpl activiteCompetenceDAO = new ActiviteCompetenceDAOImpl(db, competenceDAO);
 
-    	    activiteService = new ActiviteService(dao);
-    }
+		ActiviteDAOImpl dao = new ActiviteDAOImpl(db, activiteCompetenceDAO);
 
-
-
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		  // récupérer id
-        int id = Integer.parseInt(
-                request.getParameter("id")
-        );
-
-        // suppression
-        activiteService.supprimer(id);
-
-        // redirection
-        response.sendRedirect("listeDesActivites");
-    }
-	
+		activiteService = new ActiviteService(dao);
 	}
 
-	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// récupérer id
+		int id = Integer.parseInt(request.getParameter("id"));
 
+		// suppression
+		activiteService.supprimer(id);
 
+		// redirection
+		response.sendRedirect("listeDesActivites");
+	}
 
+}

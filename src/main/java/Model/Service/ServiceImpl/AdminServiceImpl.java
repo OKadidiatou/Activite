@@ -1,13 +1,12 @@
 package Model.Service.ServiceImpl;
 
-
 import Model.DAO.DAOInter.TacheInter;
 import Model.DAO.DAOInter.UtilisateurInter;
 import Model.Entites.Tache;
 import Model.Entites.Utilisateur;
 import Model.Enumeration.TypeRole;
 
-public class AdminServiceImpl extends UtilisateurServiceImpl{
+public class AdminServiceImpl extends UtilisateurServiceImpl {
 
 	public AdminServiceImpl(UtilisateurInter utilisateurDAO, TacheInter roleDAO) {
 		super(utilisateurDAO, roleDAO);
@@ -39,9 +38,9 @@ public class AdminServiceImpl extends UtilisateurServiceImpl{
 
 		Tache tache = this.roleInter.findByNom(TypeRole.ADMIN).get();
 		utilisateur.setRole(tache);
-		
+
 		utilisateurDAO.creer(utilisateur);
-		
+
 	}
 
 }

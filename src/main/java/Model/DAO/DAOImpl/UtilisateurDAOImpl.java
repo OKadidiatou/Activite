@@ -13,264 +13,211 @@ import Model.Entites.Utilisateur;
 import Model.Enumeration.TypeRole;
 import Model.InterfaceDB.Database;
 
-public class UtilisateurDAOImpl	 implements UtilisateurInter {
+public class UtilisateurDAOImpl implements UtilisateurInter {
 
-    private final Database db;
+	private final Database db;
 
-    public UtilisateurDAOImpl(Database db) {
-        this.db = db;
-    }
+	public UtilisateurDAOImpl(Database db) {
+		this.db = db;
+	}
 
-    @Override
-    public void creer(Utilisateur utilisateur) {
+	@Override
+	public void creer(Utilisateur utilisateur) {
 
-        String sql =
-                "INSERT INTO utilisateur(nom,prenom,telephone,mdp,roleId)"
-                        + " VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO utilisateur(nom,prenom,telephone,mdp,roleId)" + " VALUES(?,?,?,?,?)";
 
-        try (
+		try (
 
-                Connection conn =
-                        db.connexion();
+				Connection conn = db.connexion();
 
-                PreparedStatement pr =
-                        conn.prepareStatement(sql)
+				PreparedStatement pr = conn.prepareStatement(sql)
 
-        ) {
+		) {
 
-            System.out.println(
-                    "Insertion utilisateur..."
-            );
+			System.out.println("Insertion utilisateur...");
 
-            System.out.println(
-                    utilisateur.getNom()
-            );
+			System.out.println(utilisateur.getNom());
 
-            System.out.println(
-                    utilisateur.getPrenom()
-            );
+			System.out.println(utilisateur.getPrenom());
 
-            System.out.println(
-                    utilisateur.getTelephone()
-            );
+			System.out.println(utilisateur.getTelephone());
 
-            System.out.println(
-                    utilisateur.getRole().getId()
-            );
+			System.out.println(utilisateur.getRole().getId());
 
-            pr.setString(
-                    1,
-                    utilisateur.getNom()
-            );
+			pr.setString(1, utilisateur.getNom());
 
-            pr.setString(
-                    2,
-                    utilisateur.getPrenom()
-            );
+			pr.setString(2, utilisateur.getPrenom());
 
-            pr.setString(
-                    3,
-                    utilisateur.getTelephone()
-            );
+			pr.setString(3, utilisateur.getTelephone());
 
-            pr.setString(
-                    4,
-                    utilisateur.getMdp()
-            );
+			pr.setString(4, utilisateur.getMdp());
 
-            pr.setInt(
-                    5,
-                    utilisateur.getRole().getId()
-            );
+			pr.setInt(5, utilisateur.getRole().getId());
 
-            int lignes =
-                    pr.executeUpdate();
+			int lignes = pr.executeUpdate();
 
-            System.out.println(
-                    "Lignes insérées : "
-                            + lignes
-            );
+			System.out.println("Lignes insérées : " + lignes);
 
-        }
+		}
 
-        catch (SQLException e) {
+		catch (SQLException e) {
 
-            System.out.println(
-                    "Erreur SQL : "
-                            + e.getMessage()
-            );
+			System.out.println("Erreur SQL : " + e.getMessage());
 
-            e.printStackTrace();
-        }
-    }
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public Utilisateur trouverParId(int id) {
-        String sql = "SELECT * FROM utilisateur WHERE id = ?";
+	@Override
+	public Utilisateur trouverParId(int id) {
+		String sql = "SELECT * FROM utilisateur WHERE id = ?";
 
-        try (
-            Connection conn = db.connexion();
-            PreparedStatement pr = conn.prepareStatement(sql)
-        ) {
+		try (Connection conn = db.connexion(); PreparedStatement pr = conn.prepareStatement(sql)) {
 
-            pr.setInt(1, id);
+			pr.setInt(1, id);
 
-            ResultSet rs = pr.executeQuery();
+			ResultSet rs = pr.executeQuery();
 
-            if (rs.next()) {
-                return mapResultSetToUtilisateur(rs);
-            }
+			if (rs.next()) {
+				return mapResultSetToUtilisateur(rs);
+			}
 
-        } catch (SQLException e) {
-            System.err.println("Erreur recherche utilisateur : " + e.getMessage());
-        }
+		} catch (SQLException e) {
+			System.err.println("Erreur recherche utilisateur : " + e.getMessage());
+		}
 
-        return null;
-    }
-    
-    
+		return null;
+	}
 
-    // Méthode supplémentaire pour la connexion
-    @Override
-    public Utilisateur trouverParTelephone(String telephone) {
-    	String sql = """
-    	        SELECT u.*, r.nom as role_nom 
-            FROM utilisateur u 
-            LEFT JOIN role r ON u.roleId = r.id 
-    	        WHERE u.telephone = ?
-    	        """;
+	// Méthode supplémentaire pour la connexion
+	@Override
+	public Utilisateur trouverParTelephone(String telephone) {
+		String sql = """
+				 SELECT u.*, r.nom as role_nom
+				FROM utilisateur u
+				LEFT JOIN role r ON u.roleId = r.id
+				 WHERE u.telephone = ?
+				 """;
 
-        try (
-            Connection conn = db.connexion();
-            PreparedStatement pr = conn.prepareStatement(sql)
-        ) {
+		try (Connection conn = db.connexion(); PreparedStatement pr = conn.prepareStatement(sql)) {
 
-            pr.setString(1, telephone);
+			pr.setString(1, telephone);
 
-            ResultSet rs = pr.executeQuery();
+			ResultSet rs = pr.executeQuery();
 
-            if (rs.next()) {
-                return mapResultSetToUtilisateur(rs);
-                
-            }
+			if (rs.next()) {
+				return mapResultSetToUtilisateur(rs);
 
-        } catch (SQLException e) {
-            System.err.println("Erreur recherche téléphone : " + e.getMessage());
-        }
+			}
 
-        return null;
-    }
+		} catch (SQLException e) {
+			System.err.println("Erreur recherche téléphone : " + e.getMessage());
+		}
 
-    @Override
-    public void modifier(Utilisateur utilisateur) {
-        String sql = """
-                UPDATE utilisateur
-                SET nom = ?, prenom = ?, telephone = ?, mdp = ?, roleId = ?
-                WHERE id = ?
-                """;
+		return null;
+	}
 
-        try (
-            Connection conn = db.connexion();
-            PreparedStatement pr = conn.prepareStatement(sql)
-        ) {
+	@Override
+	public void modifier(Utilisateur utilisateur) {
+		String sql = """
+				UPDATE utilisateur
+				SET nom = ?, prenom = ?, telephone = ?, mdp = ?, roleId = ?
+				WHERE id = ?
+				""";
 
-            pr.setString(1, utilisateur.getNom());
-            pr.setString(2, utilisateur.getPrenom());
-            pr.setString(3, utilisateur.getTelephone());
-            pr.setString(4, utilisateur.getMdp());
-            pr.setInt(5, utilisateur.getRole().getId());
-            pr.setInt(6, utilisateur.getId());
+		try (Connection conn = db.connexion(); PreparedStatement pr = conn.prepareStatement(sql)) {
 
-            int rows = pr.executeUpdate();
+			pr.setString(1, utilisateur.getNom());
+			pr.setString(2, utilisateur.getPrenom());
+			pr.setString(3, utilisateur.getTelephone());
+			pr.setString(4, utilisateur.getMdp());
+			pr.setInt(5, utilisateur.getRole().getId());
+			pr.setInt(6, utilisateur.getId());
 
-            if (rows > 0) {
-                System.out.println("Utilisateur modifié avec succès.");
-            } else {
-                System.out.println("Aucune modification effectuée.");
-            }
+			int rows = pr.executeUpdate();
 
-        } catch (SQLException e) {
-            System.err.println("Erreur modification : " + e.getMessage());
-        }
-    }
+			if (rows > 0) {
+				System.out.println("Utilisateur modifié avec succès.");
+			} else {
+				System.out.println("Aucune modification effectuée.");
+			}
 
-    @Override
-    public void supprimer(int id) {
-        String sql = "DELETE FROM utilisateur WHERE id = ?";
+		} catch (SQLException e) {
+			System.err.println("Erreur modification : " + e.getMessage());
+		}
+	}
 
-        try (
-            Connection conn = db.connexion();
-            PreparedStatement pr = conn.prepareStatement(sql)
-        ) {
+	@Override
+	public void supprimer(int id) {
+		String sql = "DELETE FROM utilisateur WHERE id = ?";
 
-            pr.setInt(1, id);
+		try (Connection conn = db.connexion(); PreparedStatement pr = conn.prepareStatement(sql)) {
 
-            int rows = pr.executeUpdate();
+			pr.setInt(1, id);
 
-            if (rows > 0) {
-                System.out.println("Utilisateur supprimé avec succès.");
-            } else {
-                System.out.println("Aucun utilisateur supprimé.");
-            }
+			int rows = pr.executeUpdate();
 
-        } catch (SQLException e) {
-            System.err.println("Erreur suppression : " + e.getMessage());
-        }
-    }
+			if (rows > 0) {
+				System.out.println("Utilisateur supprimé avec succès.");
+			} else {
+				System.out.println("Aucun utilisateur supprimé.");
+			}
 
-    @Override
-    public List<Utilisateur> trouveTous() {
-        List<Utilisateur> utilisateurs = new ArrayList<>();
+		} catch (SQLException e) {
+			System.err.println("Erreur suppression : " + e.getMessage());
+		}
+	}
 
-        String sql = "SELECT * FROM utilisateur ORDER BY nom";
+	@Override
+	public List<Utilisateur> trouveTous() {
+		List<Utilisateur> utilisateurs = new ArrayList<>();
 
-        try (
-            Connection conn = db.connexion();
-            PreparedStatement pr = conn.prepareStatement(sql)
-        ) {
+		String sql = "SELECT * FROM utilisateur ORDER BY nom";
 
-            ResultSet rs = pr.executeQuery();
+		try (Connection conn = db.connexion(); PreparedStatement pr = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                utilisateurs.add(mapResultSetToUtilisateur(rs));
-            }
+			ResultSet rs = pr.executeQuery();
 
-        } catch (SQLException e) {
-            System.err.println("Erreur récupération utilisateurs : " + e.getMessage());
-        }
+			while (rs.next()) {
+				utilisateurs.add(mapResultSetToUtilisateur(rs));
+			}
 
-        return utilisateurs;
-    }
+		} catch (SQLException e) {
+			System.err.println("Erreur récupération utilisateurs : " + e.getMessage());
+		}
 
-    private Utilisateur mapResultSetToUtilisateur(ResultSet rs) throws SQLException {
-        Utilisateur u = new Utilisateur();
-        u.setId(rs.getInt("id"));
-        u.setNom(rs.getString("nom"));
-        u.setPrenom(rs.getString("prenom"));
-        u.setTelephone(rs.getString("telephone"));
-        u.setMdp(rs.getString("mdp"));
+		return utilisateurs;
+	}
 
-        // === CORRECTION ICI : "roleId" au lieu de "role_id" ===
-        // On utilise roleId car c'est le nom de la colonne dans ta table 'utilisateur'
-        // ou l'alias que tu as défini dans ta requête SQL (r.id as roleId)
-        int roleId = rs.getInt("roleId"); 
+	private Utilisateur mapResultSetToUtilisateur(ResultSet rs) throws SQLException {
+		Utilisateur u = new Utilisateur();
+		u.setId(rs.getInt("id"));
+		u.setNom(rs.getString("nom"));
+		u.setPrenom(rs.getString("prenom"));
+		u.setTelephone(rs.getString("telephone"));
+		u.setMdp(rs.getString("mdp"));
 
-        if (!rs.wasNull()) {
-            String roleNomStr = rs.getString("role_nom");
-            TypeRole typeRole = null;
-            
-            if (roleNomStr != null) {
-                try {
-                    typeRole = TypeRole.valueOf(roleNomStr.trim().toUpperCase());
-                } catch (Exception e) {
-                    System.out.println("Erreur conversion rôle: " + roleNomStr);
-                }
-            }
-            
-            Tache role = new Tache(roleId, typeRole);
-            u.setRole(role);
-        }
+		// === CORRECTION ICI : "roleId" au lieu de "role_id" ===
+		// On utilise roleId car c'est le nom de la colonne dans ta table 'utilisateur'
+		// ou l'alias que tu as défini dans ta requête SQL (r.id as roleId)
+		int roleId = rs.getInt("roleId");
 
-        return u;
-    }
+		if (!rs.wasNull()) {
+			String roleNomStr = rs.getString("role_nom");
+			TypeRole typeRole = null;
+
+			if (roleNomStr != null) {
+				try {
+					typeRole = TypeRole.valueOf(roleNomStr.trim().toUpperCase());
+				} catch (Exception e) {
+					System.out.println("Erreur conversion rôle: " + roleNomStr);
+				}
+			}
+
+			Tache role = new Tache(roleId, typeRole);
+			u.setRole(role);
+		}
+
+		return u;
+	}
 }
