@@ -30,7 +30,7 @@ public class ProfilDAOImpl implements ProfilInter {
         Connection conn = null;
         try {
             conn = db.connexion();
-            conn.setAutoCommit(false); // 🛠️ Début de la transaction
+            conn.setAutoCommit(false); // 🛠 Début de la transaction
 
             int profilId = 0;
 
@@ -81,6 +81,7 @@ public class ProfilDAOImpl implements ProfilInter {
 
             conn.commit(); // 🛠️ Tout s'est bien passé, on valide l'écriture globale
             System.out.println(" Profil et compétences ajoutés avec succès !");
+            
 
         } catch (SQLException e) {
             if (conn != null) {
