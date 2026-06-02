@@ -15,17 +15,15 @@ import Model.Entites.Competence;
 import Model.InterfaceDB.Database;
 import Model.Mapper.ActiviteMapper;
 
-public class ActiviteDAOImpl implements ActiviteInter{
-	
+public class ActiviteDAOImpl implements ActiviteInter {
+
 	private ActiviteCompetenceDAOImpl activiteCompetence;
 	private final Database db;
-	
-	public ActiviteDAOImpl(
-			Database db,
-			ActiviteCompetenceDAOImpl activiteCompetence
-			
-			) {
-		
+
+	public ActiviteDAOImpl(Database db, ActiviteCompetenceDAOImpl activiteCompetence
+
+	) {
+
 		this.db = db;
 		this.activiteCompetence = activiteCompetence;
 	}
@@ -33,101 +31,98 @@ public class ActiviteDAOImpl implements ActiviteInter{
 	@Override
 	public void ajouter(Activite a) {
 		// TODO Auto-generated method stub
-		
+
 		String sql = "INSERT INTO activite (nom, description, etapes, risques, revenuParMin, revenuParMax, "
-                + "disponibilite, accesInternet, materiaux, capital, zone) VALUES (?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-     
-     //comp.trouverTousCompetences();
+				+ "disponibilite, accesInternet, materiaux, capital, zone) VALUES (?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-     try {
-     	Connection conn = db.connexion();
+		// comp.trouverTousCompetences();
 
-         PreparedStatement ps = conn.prepareStatement(sql);
+		try {
+			Connection conn = db.connexion();
 
-         ps.setString(1, a.getNom());
-        // ps.setInt(2, a.getUtilisateur().getId());
-         ps.setString(2, a.getDescription());
-         ps.setString(3, a.getEtapes());
-         ps.setString(4, a.getRisques());
-         ps.setDouble(5, a.getRevenueMin());
-         ps.setDouble(6, a.getRevenueMax());
-         ps.setDouble(7, a.getDisponibilite());
-         ps.setBoolean(8, a.isAccesInternet());
-         ps.setString(9, a.getMateriaux());
-         ps.setDouble(10, a.getCapital());
-         ps.setString(11, a.getZone().name()); //permet de transformer typezone en chaine de caratere et l'envoyer dans la base de donnees
+			PreparedStatement ps = conn.prepareStatement(sql);
 
-         ps.executeUpdate();
-         
-         activiteCompetence.creer(a);
+			ps.setString(1, a.getNom());
+			// ps.setInt(2, a.getUtilisateur().getId());
+			ps.setString(2, a.getDescription());
+			ps.setString(3, a.getEtapes());
+			ps.setString(4, a.getRisques());
+			ps.setDouble(5, a.getRevenueMin());
+			ps.setDouble(6, a.getRevenueMax());
+			ps.setDouble(7, a.getDisponibilite());
+			ps.setBoolean(8, a.isAccesInternet());
+			ps.setString(9, a.getMateriaux());
+			ps.setDouble(10, a.getCapital());
+			ps.setString(11, a.getZone().name()); // permet de transformer typezone en chaine de caratere et l'envoyer
+													// dans la base de donnees
 
+			ps.executeUpdate();
 
-         System.out.println("Activité ajoutée avec succès !");
+			activiteCompetence.creer(a);
 
-     } catch (SQLException e) {
-         System.out.println("Erreur ajout: " + e.getMessage());
-     }
-		
+			System.out.println("Activité ajoutée avec succès !");
+
+		} catch (SQLException e) {
+			System.out.println("Erreur ajout: " + e.getMessage());
+		}
+
 	}
 
 	@Override
 	public void modifier(Activite a) {
 		// TODO Auto-generated method stub
 		String sql = "UPDATE activite SET nom=?, description=?, etapes=?, risques=?, "
-                + "revenuParMin=?, revenuParMax=?, disponibilite=?, accesInternet=?, materiaux=?, capital=?, zone=? "
-                + "WHERE id=?";
-     
+				+ "revenuParMin=?, revenuParMax=?, disponibilite=?, accesInternet=?, materiaux=?, capital=?, zone=? "
+				+ "WHERE id=?";
 
-     try {
-     	Connection conn = db.connexion();
+		try {
+			Connection conn = db.connexion();
 
-         PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 
-         ps.setString(1, a.getNom());
-         ps.setString(2, a.getDescription());
-         ps.setString(3, a.getEtapes());
-         ps.setString(4, a.getRisques());
-         ps.setDouble(5, a.getRevenueMin());
-         ps.setDouble(6, a.getRevenueMax());
-         ps.setDouble(7, a.getDisponibilite());
-         ps.setBoolean(8, a.isAccesInternet());
-         ps.setString(9, a.getMateriaux());
-         ps.setDouble(10, a.getCapital());
-         ps.setString(11, a.getZone().name());
-         ps.setInt(12, a.getId());
+			ps.setString(1, a.getNom());
+			ps.setString(2, a.getDescription());
+			ps.setString(3, a.getEtapes());
+			ps.setString(4, a.getRisques());
+			ps.setDouble(5, a.getRevenueMin());
+			ps.setDouble(6, a.getRevenueMax());
+			ps.setDouble(7, a.getDisponibilite());
+			ps.setBoolean(8, a.isAccesInternet());
+			ps.setString(9, a.getMateriaux());
+			ps.setDouble(10, a.getCapital());
+			ps.setString(11, a.getZone().name());
+			ps.setInt(12, a.getId());
 
-         ps.executeUpdate();
+			ps.executeUpdate();
 
-         
-      
-         System.out.println("Activité modifiée !");
+			System.out.println("Activité modifiée !");
 
-     } catch (SQLException e) {
-         System.out.println("Erreur modification: " + e.getMessage());
-     }
+		} catch (SQLException e) {
+			System.out.println("Erreur modification: " + e.getMessage());
+		}
 	}
 
 	@Override
 	public void supprimer(int id) {
 		// TODO Auto-generated method stub
 		try {
-        	
-            String sql = "DELETE FROM activite WHERE id=?";
-        	
-            Connection conn = db.connexion();
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            
-            ps.setInt(1, id);
+			String sql = "DELETE FROM activite WHERE id=?";
 
-            ps.executeUpdate();
+			Connection conn = db.connexion();
 
-            System.out.println("Activité supprimée !");
+			PreparedStatement ps = conn.prepareStatement(sql);
 
-        } catch (SQLException e) {
-            System.out.println("Erreur suppression: " + e.getMessage());
-        }
-		
+			ps.setInt(1, id);
+
+			ps.executeUpdate();
+
+			System.out.println("Activité supprimée !");
+
+		} catch (SQLException e) {
+			System.out.println("Erreur suppression: " + e.getMessage());
+		}
+
 	}
 
 	@Override
@@ -135,39 +130,30 @@ public class ActiviteDAOImpl implements ActiviteInter{
 		// TODO Auto-generated method stub
 		List<Activite> liste = new ArrayList<>();
 
-        String sql = "SELECT * FROM activite";
+		String sql = "SELECT * FROM activite";
 
-        try (
-            Connection conn = db.connexion();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql)
-        ) {
+		try (Connection conn = db.connexion();
+				Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery(sql)) {
 
-            while (rs.next()) {
+			while (rs.next()) {
 
-                
-                Activite a = ActiviteMapper.map(rs);
+				Activite a = ActiviteMapper.map(rs);
 
-                // Charger les compétences liées
-                List<Competence> competences =
-                        activiteCompetence.lire(a);
+				// Charger les compétences liées
+				List<Competence> competences = activiteCompetence.lire(a);
 
-                
-                a.setCompetences(competences);
+				a.setCompetences(competences);
 
-                
-                liste.add(a);
-            }
+				liste.add(a);
+			}
 
-        } catch (SQLException e) {
+		} catch (SQLException e) {
 
-            System.out.println(
-                    "Erreur liste activités : "
-                    + e.getMessage()
-            );
-        }
+			System.out.println("Erreur liste activités : " + e.getMessage());
+		}
 
-        return liste;
+		return liste;
 	}
 
 	@Override
@@ -175,26 +161,24 @@ public class ActiviteDAOImpl implements ActiviteInter{
 		// TODO Auto-generated method stub
 		String sql = "SELECT * FROM activite WHERE id=?";
 
-        try {
-        	Connection conn = db.connexion();
+		try {
+			Connection conn = db.connexion();
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            
-            ps.setInt(1, id);
+			PreparedStatement ps = conn.prepareStatement(sql);
 
-            ResultSet rs = ps.executeQuery();
+			ps.setInt(1, id);
 
+			ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return ActiviteMapper.map(rs);
-            }
+			if (rs.next()) {
+				return ActiviteMapper.map(rs);
+			}
 
+		} catch (SQLException e) {
+			System.out.println("Erreur lecture: " + e.getMessage());
+		}
 
-        } catch (SQLException e) {
-            System.out.println("Erreur lecture: " + e.getMessage());
-        }
-
-        return null;
+		return null;
 	}
 
 }

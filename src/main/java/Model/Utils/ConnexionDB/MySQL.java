@@ -12,45 +12,33 @@ public class MySQL implements Database {
 	@Override
 	public Connection connexion() {
 
-	    String url =
-	        "jdbc:mysql://localhost:3306/application_recommandation";
+		String url = "jdbc:mysql://localhost:3306/application_recommandation";
 
-	    String username = "root";
-	    String passwd = "12345";
+		String username = "root";
+		String passwd = "12345";
 
-	    try {
+		try {
 
-	        Class.forName(
-	            "com.mysql.cj.jdbc.Driver"
-	        );
+			Class.forName("com.mysql.cj.jdbc.Driver");
 
-	        conn = DriverManager.getConnection(
-	                url,
-	                username,
-	                passwd
-	        );
+			conn = DriverManager.getConnection(url, username, passwd);
 
-	        System.out.println(
-	            "Connexion MySQL réussie"
-	        );
+			System.out.println("Connexion MySQL réussie");
 
-	    } catch (Exception e) {
+		} catch (Exception e) {
 
-	        System.out.println(
-	            "Erreur connexion : "
-	            + e.getMessage()
-	        );
+			System.out.println("Erreur connexion : " + e.getMessage());
 
-	        e.printStackTrace();
-	    }
+			e.printStackTrace();
+		}
 
-	    return conn;
+		return conn;
 	}
 
 	@Override
 	public void deconnexion(Connection conn) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

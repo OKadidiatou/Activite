@@ -7,155 +7,143 @@ import Model.Service.ServiceInter.CompetenceServiceInter;
 
 public class CompetenceService {
 
-    // Dépendance vers l'interface DAO
-    private final CompetenceServiceInter competenceDAO;
+	// Dépendance vers l'interface DAO
+	private final CompetenceServiceInter competenceDAO;
 
-    // Injection de dépendance par le constructeur
-    public CompetenceService(CompetenceServiceInter competenceDAO) {
-        this.competenceDAO = competenceDAO;
-    }
+	// Injection de dépendance par le constructeur
+	public CompetenceService(CompetenceServiceInter competenceDAO) {
+		this.competenceDAO = competenceDAO;
+	}
 
-    
-    // PARTIE AJOUTER UNE COMPETENCE
-    
-    public Competence creerCompetence(Competence comp) {
+	// PARTIE AJOUTER UNE COMPETENCE
 
-        // Vérification si objet est  null
-        if (comp == null) {
+	public Competence creerCompetence(Competence comp) {
 
-            System.out.println("Erreur : compétence invalide");
-            return null;
-        }
+		// Vérification si objet est null
+		if (comp == null) {
 
-        // Vérification du nom
-        if (comp.getNom() == null ||
-                comp.getNom().trim().isEmpty()) {
+			System.out.println("Erreur : compétence invalide");
+			return null;
+		}
 
-            System.out.println("Erreur : le nom est obligatoire");
-            return null;
-        }
+		// Vérification du nom
+		if (comp.getNom() == null || comp.getNom().trim().isEmpty()) {
 
-        // Vérification description
-        if (comp.getDescription() == null ||
-                comp.getDescription().trim().isEmpty()) {
+			System.out.println("Erreur : le nom est obligatoire");
+			return null;
+		}
 
-            System.out.println("Erreur : la description est obligatoire");
-            return null;
-        }
+		// Vérification description
+		if (comp.getDescription() == null || comp.getDescription().trim().isEmpty()) {
 
-        // Appel DAO
-        competenceDAO.creerCompetence(comp);
+			System.out.println("Erreur : la description est obligatoire");
+			return null;
+		}
 
-        System.out.println("Compétence ajoutée avec succès");
+		// Appel DAO
+		competenceDAO.creerCompetence(comp);
 
-        return comp;
-    }
+		System.out.println("Compétence ajoutée avec succès");
 
-    
-    // PARTIE MODIFIER UNE COMPETENCE
-    
-    public Optional<Competence> modifierCompetence(Competence comp) {
+		return comp;
+	}
 
-        // Vérification objet
-        if (comp == null) {
+	// PARTIE MODIFIER UNE COMPETENCE
 
-            System.out.println(" Erreur : compétence invalide");
-            return Optional.empty();
-        }
+	public Optional<Competence> modifierCompetence(Competence comp) {
 
-        // Vérification ID
-        if (comp.getId() <= 0) {
+		// Vérification objet
+		if (comp == null) {
 
-            System.out.println("Erreur : ID invalide");
-            return Optional.empty();
-        }
+			System.out.println(" Erreur : compétence invalide");
+			return Optional.empty();
+		}
 
-        // Vérifie si la compétence existe
-        Optional<Competence> competenceExistante =
-                competenceDAO.trouverCompetenceParId(comp.getId());
+		// Vérification ID
+		if (comp.getId() <= 0) {
 
-        if (competenceExistante.isEmpty()) {
+			System.out.println("Erreur : ID invalide");
+			return Optional.empty();
+		}
 
-            System.out.println("Erreur : compétence introuvable");
-            return Optional.empty();
-        }
+		// Vérifie si la compétence existe
+		Optional<Competence> competenceExistante = competenceDAO.trouverCompetenceParId(comp.getId());
 
-        // Mise à jour
-        competenceDAO.modifierCompetence(comp);
+		if (competenceExistante.isEmpty()) {
 
-        System.out.println(" Compétence modifiée avec succès");
+			System.out.println("Erreur : compétence introuvable");
+			return Optional.empty();
+		}
 
-        return Optional.of(comp);
-    }
+		// Mise à jour
+		competenceDAO.modifierCompetence(comp);
 
-    
-    // SUPPRIMER UNE COMPETENCE
-    
-    public boolean supprimerCompetence(int id) {
+		System.out.println(" Compétence modifiée avec succès");
 
-        // Vérification ID
-        if (id <= 0) {
+		return Optional.of(comp);
+	}
 
-            System.out.println("Erreur : ID invalide");
-            return false;
-        }
+	// SUPPRIMER UNE COMPETENCE
 
-        // Vérifie si la compétence existe
-        Optional<Competence> competence =
-                competenceDAO.trouverCompetenceParId(id);
+	public boolean supprimerCompetence(int id) {
 
-        if (competence.isEmpty()) {
+		// Vérification ID
+		if (id <= 0) {
 
-            System.out.println(" Erreur : compétence inexistante");
-            return false;
-        }
+			System.out.println("Erreur : ID invalide");
+			return false;
+		}
 
-        // Suppression
-        competenceDAO.supprimerCompetence(id);
+		// Vérifie si la compétence existe
+		Optional<Competence> competence = competenceDAO.trouverCompetenceParId(id);
 
-        System.out.println("Compétence supprimée avec succès");
+		if (competence.isEmpty()) {
 
-        return true;
-    }
+			System.out.println(" Erreur : compétence inexistante");
+			return false;
+		}
 
-   
-    // PARTIE OBTENIR TOUTES LES COMPETENCES
-     
-    public List<Competence> obtenirToutesCompetences() {
+		// Suppression
+		competenceDAO.supprimerCompetence(id);
 
-        List<Competence> liste =
-                competenceDAO.trouverTousCompetences();
+		System.out.println("Compétence supprimée avec succès");
 
-        if (liste.isEmpty()) {
+		return true;
+	}
 
-            System.out.println("Aucune compétence trouvée");
-        }
+	// PARTIE OBTENIR TOUTES LES COMPETENCES
 
-        return liste;
-    }
+	public List<Competence> obtenirToutesCompetences() {
 
-    
-    // PARTIE RECHERCHER PAR ID
-    
-    public Optional<Competence> obtenirCompetenceParId(int id) {
+		List<Competence> liste = competenceDAO.trouverTousCompetences();
 
-        // Vérification ID
-        if (id <= 0) {
+		if (liste.isEmpty()) {
 
-            System.out.println("Erreur : ID invalide");
-            return Optional.empty();
-        }
+			System.out.println("Aucune compétence trouvée");
+		}
 
-        // Recherche la competence
-        Optional<Competence> competence =
-                competenceDAO.trouverCompetenceParId(id);
+		return liste;
+	}
 
-        if (competence.isEmpty()) {
+	// PARTIE RECHERCHER PAR ID
 
-            System.out.println(" Aucune compétence trouvée");
-        }
+	public Optional<Competence> obtenirCompetenceParId(int id) {
 
-        return competence;
-    }
+		// Vérification ID
+		if (id <= 0) {
+
+			System.out.println("Erreur : ID invalide");
+			return Optional.empty();
+		}
+
+		// Recherche la competence
+		Optional<Competence> competence = competenceDAO.trouverCompetenceParId(id);
+
+		if (competence.isEmpty()) {
+
+			System.out.println(" Aucune compétence trouvée");
+		}
+
+		return competence;
+	}
 }
-

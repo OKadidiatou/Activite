@@ -10,86 +10,82 @@ import Model.DAO.DAOInter.RecommandationInter;
 import Model.Entites.Recommandation;
 import Model.InterfaceDB.Database;
 
-public class RecommandationDAOImpl  implements RecommandationInter{
+public class RecommandationDAOImpl implements RecommandationInter {
 
-	
 	private Database db;
 
-    // Constructeur conseillé
-    public RecommandationDAOImpl(Database db) {
-        this.db = db;
-    }
+	// Constructeur conseillé
+	public RecommandationDAOImpl(Database db) {
+		this.db = db;
+	}
 
-    public List<Recommandation> afficher(int profilId) {
+	public List<Recommandation> afficher(int profilId) {
 
-        List<Recommandation> liste = new ArrayList<>();
-        String sql = "SELECT * FROM recommandation WHERE profilId = ?";
+		List<Recommandation> liste = new ArrayList<>();
+		String sql = "SELECT * FROM recommandation WHERE profilId = ?";
 
-        try (Connection conn = this.db.connexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+		try (Connection conn = this.db.connexion(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // Remplacement du ? par l'identifiant du profil
-            ps.setInt(1, profilId);
+			// Remplacement du ? par l'identifiant du profil
+			ps.setInt(1, profilId);
 
-            try (ResultSet rs = ps.executeQuery()) {
+			try (ResultSet rs = ps.executeQuery()) {
 
-                while (rs.next()) {
+				while (rs.next()) {
 
-                    Recommandation r = new Recommandation();
+					Recommandation r = new Recommandation();
 
-                    r.setId(rs.getInt("id"));
-                    r.setDateAjout(rs.getDate("dateAjout"));
+					r.setId(rs.getInt("id"));
+					r.setDateAjout(rs.getDate("dateAjout"));
 
-                    liste.add(r);
-                }
-            }
+					liste.add(r);
+				}
+			}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return liste;
-    }
+		return liste;
+	}
 
 	@Override
 	public void ajouter(Recommandation r) {
 		// TODO Auto-generated method stub
-		
+
 		String sql = "INSERT INTO recommandation(activiteId, profilId, dateAjout) VALUES (?, ?, ?)";
 
-        try (Connection conn = this.db.connexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+		try (Connection conn = this.db.connexion(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, r.getActivite().getId());
-            ps.setInt(2, r.getProfil().getId());
-            ps.setDate(3, new java.sql.Date(r.getDateAjout().getTime()));
+			ps.setInt(1, r.getActivite().getId());
+			ps.setInt(2, r.getProfil().getId());
+			ps.setDate(3, new java.sql.Date(r.getDateAjout().getTime()));
 
-            ps.executeUpdate();
+			ps.executeUpdate();
 
-            System.out.println("Ajout réussi");
+			System.out.println("Ajout réussi");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void supprimer(int id) {
 
-        String sql = "DELETE FROM recommandation WHERE id = ?";
+		String sql = "DELETE FROM recommandation WHERE id = ?";
 
-        try (Connection conn = this.db.connexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+		try (Connection conn = this.db.connexion(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
-            ps.executeUpdate();
+			ps.setInt(1, id);
+			ps.executeUpdate();
 
-            System.out.println("Suppression réussie");
+			System.out.println("Suppression réussie");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

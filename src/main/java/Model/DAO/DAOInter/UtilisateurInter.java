@@ -7,13 +7,13 @@ import Model.Entites.Utilisateur;
 public interface UtilisateurInter {
 	void creer(Utilisateur utilisateur);
 
-    Utilisateur trouverParId(int id);
+	Utilisateur trouverParId(int id);
 
-    Utilisateur trouverParTelephone(String telephone);
+	Utilisateur trouverParTelephone(String telephone);
 
-    void modifier(Utilisateur utilisateur);
+	void modifier(Utilisateur utilisateur);
 
-    void supprimer(int id);
+	void supprimer(int id);
 
-    List<Utilisateur> trouveTous();
+	List<Utilisateur> trouveTous();
 }

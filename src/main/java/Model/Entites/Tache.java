@@ -2,48 +2,45 @@ package Model.Entites;
 
 import Model.Enumeration.TypeRole;
 
-
-
 public class Tache {
 
-    private int id;
+	private int id;
 
-    private TypeRole nom;
+	private TypeRole nom;
 
+	public Tache() {
+	}
 
+	public Tache(int id, TypeRole nom) {
 
-    public Tache() {}
+		this.id = id;
 
+		this.nom = nom;
 
+	}
 
-    public Tache(int id, TypeRole nom) {
+	public int getId() {
+		return id;
+	}
 
-        this.id = id;
+	public void setId(int id) {
+		this.id = id;
+	}
 
-        this.nom = nom;
+	public TypeRole getNom() {
+		return nom;
+	}
 
-    }
+	public void setNom(TypeRole nom) {
+		this.nom = nom;
+	}
 
+	@Override
 
+	public String toString() {
 
-    public int getId() { return id; }
+		return "Role{" + "id=" + id + ", nom=" + (nom != null ? nom.name() : "null") + '}';
 
-    public void setId(int id) { this.id = id; }
-
-
-
-    public TypeRole getNom() { return nom; }
-
-    public void setNom(TypeRole nom) { this.nom = nom; }
-
-
-
-    @Override
-
-    public String toString() {
-
-        return "Role{" + "id=" + id + ", nom=" + (nom != null ? nom.name() : "null") + '}';
-
-    }
+	}
 
 }
