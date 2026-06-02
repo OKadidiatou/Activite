@@ -16,7 +16,7 @@ public class MySQL implements Database {
 	        "jdbc:mysql://localhost:3306/application_recommandation";
 
 	    String username = "root";
-	    String passwd = "root";
+	    String passwd = "12345";
 
 	    try {
 
