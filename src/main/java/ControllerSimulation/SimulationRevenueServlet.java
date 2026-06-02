@@ -41,17 +41,6 @@ public class SimulationRevenueServlet extends HttpServlet {
             System.out.println("Erreur de saisie : Le capital n'est pas un nombre valide.");
         }
 
-        // ======================================================================
-        // 4. CONNEXION AVEC TA PARTIE LOGIQUE 
-        // ======================================================================
-        
-        // Remplacer "NomDeTaClasseLogique" par le vrai nom de ta classe.
-        // Exemple si ta méthode est normale (non-statique) :
-        // NomDeTaClasseLogique maLogique = new NomDeTaClasseLogique();
-        // double resultatCalcul = maLogique.calculerRevenu(disponibilite, competence, capital, zone, internet);
-        
-        // Pour l'instant, on met une variable exemple pour que ton code compile :
-        double resultatCalcul = 0.0; 
 
         // ======================================================================
 
@@ -61,8 +50,7 @@ public class SimulationRevenueServlet extends HttpServlet {
         request.setAttribute("capital", capital);
         request.setAttribute("zone", zone);
         request.setAttribute("internet", internet);
-        request.setAttribute("revenuEstime", resultatCalcul); // On envoie le résultat de ta logique !
-
+      
         // 6. Redirection automatique vers la page resultat.jsp
         request.getRequestDispatcher("/resultat.jsp").forward(request, response);
     }
