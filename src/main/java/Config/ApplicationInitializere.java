@@ -18,7 +18,7 @@ import Model.Service.ServiceInter.UtilisateurServiceInter;
 import Model.Utils.ConnexionDB.MySQL;
 
 @WebListener
-public class ApplicationInitializer implements ServletContextListener {
+public class ApplicationInitializere implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -27,6 +27,7 @@ public class ApplicationInitializer implements ServletContextListener {
         try {
             // 1. Base de données
         	Database database = new MySQL();
+        	context.setAttribute("nom", "Fatou");
 
         	Connection test = database.connexion();
 
