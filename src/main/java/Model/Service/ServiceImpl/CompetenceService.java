@@ -1,154 +1,161 @@
 package Model.Service.ServiceImpl;
 
-
-
-
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import Model.Entites.Competence;
-import Model.InterfaceDB.Database;
-import Model.Service.ServiceInter.*;
+import Model.Service.ServiceInter.CompetenceServiceInter;
 
-public class CompetenceService implements CompetenceServiceInter{
+public class CompetenceService {
 
-    // Objet permettant la connexion à la base de données
-    private final Database db;
+    // Dépendance vers l'interface DAO
+    private final CompetenceServiceInter competenceDAO;
 
-    // Constructeur
-    public CompetenceService(Database db) {
-        this.db = db;
+    // Injection de dépendance par le constructeur
+    public CompetenceService(CompetenceServiceInter competenceDAO) {
+        this.competenceDAO = competenceDAO;
     }
 
-    public void creerCompetence(Competence comp) {
+    
+    // PARTIE AJOUTER UNE COMPETENCE
+    
+    public Competence creerCompetence(Competence comp) {
 
-        String sql = "INSERT INTO competence(nom, description) VALUES (?, ?)";
+        // Vérification si objet est  null
+        if (comp == null) {
 
-        try (
-                Connection conn = db.connexion();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
-
-            ps.setString(1, comp.getNom());
-            ps.setString(2, comp.getDescription());
-
-            ps.executeUpdate();
-
-            System.out.println("Compétence ajoutée avec succès !");
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+            System.out.println("Erreur : compétence invalide");
+            return null;
         }
-    }
 
-    public void modifierCompetence(Competence comp) {
+        // Vérification du nom
+        if (comp.getNom() == null ||
+                comp.getNom().trim().isEmpty()) {
 
-        String sql = "UPDATE competence SET nom=?, description=? WHERE id=?";
-
-        try (
-                Connection conn = db.connexion();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
-
-            ps.setString(1, comp.getNom());
-            ps.setString(2, comp.getDescription());
-            ps.setInt(3, comp.getId());
-
-            ps.executeUpdate();
-
-            System.out.println("Compétence modifiée avec succès !");
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+            System.out.println("Erreur : le nom est obligatoire");
+            return null;
         }
-    }
 
-    public void supprimerCompetence(int id) {
+        // Vérification description
+        if (comp.getDescription() == null ||
+                comp.getDescription().trim().isEmpty()) {
 
-        String sql = "DELETE FROM competence WHERE id=?";
-
-        try (
-                Connection conn = db.connexion();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
-
-            ps.setInt(1, id);
-
-            ps.executeUpdate();
-
-            System.out.println("Compétence supprimée avec succès !");
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+            System.out.println("Erreur : la description est obligatoire");
+            return null;
         }
+
+        // Appel DAO
+        competenceDAO.creerCompetence(comp);
+
+        System.out.println("Compétence ajoutée avec succès");
+
+        return comp;
     }
 
-    public List<Competence> trouverTousCompetences() {
+    
+    // PARTIE MODIFIER UNE COMPETENCE
+    
+    public Optional<Competence> modifierCompetence(Competence comp) {
 
-        List<Competence> liste = new ArrayList<>();
+        // Vérification objet
+        if (comp == null) {
 
-        String sql = "SELECT * FROM competence";
+            System.out.println(" Erreur : compétence invalide");
+            return Optional.empty();
+        }
 
-        try (
-                Connection conn = db.connexion();
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(sql)
-        ) {
+        // Vérification ID
+        if (comp.getId() <= 0) {
 
-            while (rs.next()) {
+            System.out.println("Erreur : ID invalide");
+            return Optional.empty();
+        }
 
-                Competence comp = new Competence(
-                        rs.getInt("id"),
-                        rs.getString("nom"),
-                        rs.getString("description")
-                );
+        // Vérifie si la compétence existe
+        Optional<Competence> competenceExistante =
+                competenceDAO.trouverCompetenceParId(comp.getId());
 
-                liste.add(comp);
-           }
+        if (competenceExistante.isEmpty()) {
 
-        } catch (SQLException e) {
+            System.out.println("Erreur : compétence introuvable");
+            return Optional.empty();
+        }
 
-            e.printStackTrace();
+        // Mise à jour
+        competenceDAO.modifierCompetence(comp);
+
+        System.out.println(" Compétence modifiée avec succès");
+
+        return Optional.of(comp);
+    }
+
+    
+    // SUPPRIMER UNE COMPETENCE
+    
+    public boolean supprimerCompetence(int id) {
+
+        // Vérification ID
+        if (id <= 0) {
+
+            System.out.println("Erreur : ID invalide");
+            return false;
+        }
+
+        // Vérifie si la compétence existe
+        Optional<Competence> competence =
+                competenceDAO.trouverCompetenceParId(id);
+
+        if (competence.isEmpty()) {
+
+            System.out.println(" Erreur : compétence inexistante");
+            return false;
+        }
+
+        // Suppression
+        competenceDAO.supprimerCompetence(id);
+
+        System.out.println("Compétence supprimée avec succès");
+
+        return true;
+    }
+
+   
+    // PARTIE OBTENIR TOUTES LES COMPETENCES
+     
+    public List<Competence> obtenirToutesCompetences() {
+
+        List<Competence> liste =
+                competenceDAO.trouverTousCompetences();
+
+        if (liste.isEmpty()) {
+
+            System.out.println("Aucune compétence trouvée");
         }
 
         return liste;
     }
 
-    public Optional<Competence> trouverCompetenceParId(int id) {
+    
+    // PARTIE RECHERCHER PAR ID
+    
+    public Optional<Competence> obtenirCompetenceParId(int id) {
 
-        String sql = "SELECT * FROM competence WHERE id=?";
+        // Vérification ID
+        if (id <= 0) {
 
-        try (
-                Connection conn = db.connexion();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
-
-            ps.setInt(1, id);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-
-                Competence comp = new Competence();
-
-                comp.setId(rs.getInt("id"));
-                comp.setNom(rs.getString("nom"));
-                comp.setDescription(rs.getString("description"));
-
-                return Optional.of(comp);
-            }
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+            System.out.println("Erreur : ID invalide");
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        // Recherche la competence
+        Optional<Competence> competence =
+                competenceDAO.trouverCompetenceParId(id);
+
+        if (competence.isEmpty()) {
+
+            System.out.println(" Aucune compétence trouvée");
+        }
+
+        return competence;
     }
 }
+
