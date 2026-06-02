@@ -26,6 +26,14 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
+	<classpathentry kind="lib" path="C:/Users/kalandew10/Downloads/mysql-connector-j-9.7.0/mysql-connector-j-9.7.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+=======
+>>>>>>> 3874f14e1ecc678826c4bddaa2ac2f01204bc6f8
 	<classpathentry kind="output" path="build/classes"/>
 >>>>>>> Stashed changes
 </classpath>

@@ -14,8 +14,13 @@ public class MySQL implements Database {
 
 		String url = "jdbc:mysql://localhost:3306/application_recommandation";
 
+<<<<<<< HEAD
+	    String username = "root";
+	    String passwd = "2309";
+=======
 		String username = "root";
 		String passwd = "12345";
+>>>>>>> 3874f14e1ecc678826c4bddaa2ac2f01204bc6f8
 
 		try {
 
