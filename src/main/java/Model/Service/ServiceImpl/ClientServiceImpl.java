@@ -1,6 +1,5 @@
 package Model.Service.ServiceImpl;
 
-
 import Model.DAO.DAOInter.TacheInter;
 import Model.DAO.DAOInter.UtilisateurInter;
 import Model.Entites.Tache;
@@ -42,7 +41,5 @@ public class ClientServiceImpl extends UtilisateurServiceImpl {
 		utilisateur.setRole(tache);
 		utilisateurDAO.creer(utilisateur);
 	}
-		
-	}
 
-
+}

@@ -5,85 +5,84 @@ import Model.Entites.Profil;
 import Model.Service.ServiceInter.ProfilServiceInter;
 
 public class ProfilServiceImpl implements ProfilServiceInter {
-	
+
 	private ProfilDAOImpl profilDAOImpl;
+
 	public ProfilServiceImpl(ProfilDAOImpl profilDAOImpl) {
 		this.profilDAOImpl = profilDAOImpl;
 	}
- 
+
 	@Override
 	public void creerProfil(Profil profil) {
 		// TODO Auto-generated method stub
 
-        if (profil.getDisponibilite() <= 0) {
-            System.out.println("Disponibilité invalide.");
-            return;
-        }
+		if (profil.getDisponibilite() <= 0) {
+			System.out.println("Disponibilité invalide.");
+			return;
+		}
 
-        if (profil.getCapital() < 0) {
-            System.out.println("Capital invalide.");
-            return;
-        }
+		if (profil.getCapital() < 0) {
+			System.out.println("Capital invalide.");
+			return;
+		}
 
-        if (profil.getZone() == null) {
+		if (profil.getZone() == null) {
 
-            System.out.println("Zone obligatoire.");
-            return;
-        }
+			System.out.println("Zone obligatoire.");
+			return;
+		}
 
-        profilDAOImpl.ajouter(profil);
-        
-        
-		
+		profilDAOImpl.ajouter(profil);
+
 	}
 
 	@Override
 	public Profil obtenirProfilParId(int id) {
 		// TODO Auto-generated method stub
-		 if (id <= 0) {
-	            System.out.println("ID invalide.");
-	            return null;
-	        }
+		if (id <= 0) {
+			System.out.println("ID invalide.");
+			return null;
+		}
 
-	        return profilDAOImpl.trouverParId(id);
+		return profilDAOImpl.trouverParId(id);
 	}
 
 	@Override
 	public Profil obtenirProfilParUtilisateur(int utilisateurId) {
 		// TODO Auto-generated method stub
-		  if (utilisateurId <= 0) {
-	            System.out.println("Utilisateur invalide.");
-	            return null;
-	        }
+		if (utilisateurId <= 0) {
+			System.out.println("Utilisateur invalide.");
+			return null;
+		}
 
-	        return profilDAOImpl.trouverParUtilisateur(utilisateurId);
+		return profilDAOImpl.trouverParUtilisateur(utilisateurId);
 	}
 
 	@Override
 	public void modifierProfil(Profil profil) {
 		// TODO Auto-generated method stub
-		
-		 if (profil == null) {
-	            System.out.println("Profil introuvable.");
-	            return;
-	        }
 
-	        profilDAOImpl.modifier(profil);
+		if (profil == null) {
+			System.out.println("Profil introuvable.");
+			return;
+		}
 
-	        System.out.println("Profil modifié.");
-		
+		profilDAOImpl.modifier(profil);
+
+		System.out.println("Profil modifié.");
+
 	}
 
 	@Override
 	public void supprimerProfil(int id) {
 		// TODO Auto-generated method stub
 		if (id <= 0) {
-            System.out.println("ID invalide.");
-            return;
-        }
+			System.out.println("ID invalide.");
+			return;
+		}
 
-        profilDAOImpl.supprimer(id);
-		
+		profilDAOImpl.supprimer(id);
+
 	}
 
 }

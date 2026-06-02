@@ -25,36 +25,34 @@ import Model.Utils.ConnexionDB.MySQL;
 public class ListeActivitesServelet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ActiviteServiceInter activiteService;
-       
-   @Override
-   public void init() throws ServletException{
-	   Database db = new MySQL();
-	   CompetenceDAOImpl competenceDAO = new CompetenceDAOImpl(db);
-	   ActiviteCompetenceDAOImpl activiteCompetence = new ActiviteCompetenceDAOImpl(db, competenceDAO);
-	   ActiviteInter activiteDAO = new ActiviteDAOImpl(db,  activiteCompetence);
-	   this.activiteService = new ActiviteService(activiteDAO);
-   }
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	List<Activite> listActivites = activiteService.tousList();
-	
-	
-	request.setAttribute("activites" , listActivites);
-	
-	request.getRequestDispatcher("/listeActivites.jsp").forward(request, response);
+
+	@Override
+	public void init() throws ServletException {
+		Database db = new MySQL();
+		CompetenceDAOImpl competenceDAO = new CompetenceDAOImpl(db);
+		ActiviteCompetenceDAOImpl activiteCompetence = new ActiviteCompetenceDAOImpl(db, competenceDAO);
+		ActiviteInter activiteDAO = new ActiviteDAOImpl(db, activiteCompetence);
+		this.activiteService = new ActiviteService(activiteDAO);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		List<Activite> listActivites = activiteService.tousList();
+
+		request.setAttribute("activites", listActivites);
+
+		request.getRequestDispatcher("/listeActivites.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
 }
-
-
-
-
-

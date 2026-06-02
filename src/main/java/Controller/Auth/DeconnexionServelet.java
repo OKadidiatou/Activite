@@ -12,27 +12,20 @@ import java.io.IOException;
 @WebServlet("/deconnexion")
 public class DeconnexionServelet extends HttpServlet {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override
-    protected void doGet(
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        HttpSession session =
-                request.getSession(false);
+		HttpSession session = request.getSession(false);
 
-        if(session != null) {
-            session.invalidate();
-        }
+		if (session != null) {
+			session.invalidate();
+		}
 
-        response.sendRedirect(
-                request.getContextPath()
-                + "/connexion"
-        );
-    }
+		response.sendRedirect(request.getContextPath() + "/connexion");
+	}
 }

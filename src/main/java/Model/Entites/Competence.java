@@ -2,23 +2,17 @@ package Model.Entites;
 
 public class Competence {
 
-
-
 	private int id;
 
 	private String nom;
 
 	private String description;
 
-	
-
 	public Competence() {
 
 		// TODO Auto-generated constructor stub
 
 	}
-
-
 
 	public Competence(int id, String nom, String description) {
 
@@ -30,15 +24,11 @@ public class Competence {
 
 	}
 
-
-
 	public int getId() {
 
 		return id;
 
 	}
-
-
 
 	public void setId(int id) {
 
@@ -46,15 +36,11 @@ public class Competence {
 
 	}
 
-
-
 	public String getNom() {
 
 		return nom;
 
 	}
-
-
 
 	public void setNom(String nom) {
 
@@ -62,22 +48,16 @@ public class Competence {
 
 	}
 
-
-
 	public String getDescription() {
 
 		return description;
 
 	}
 
-
-
 	public void setDescription(String description) {
 
 		this.description = description;
 
 	}
-
-		
 
 }

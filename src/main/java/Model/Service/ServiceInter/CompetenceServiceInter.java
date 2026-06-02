@@ -8,11 +8,11 @@ import Model.Entites.*;
 public interface CompetenceServiceInter {
 	void creerCompetence(Competence comp);
 
-    void modifierCompetence(Competence comp);
+	void modifierCompetence(Competence comp);
 
-    void supprimerCompetence(int id);
+	void supprimerCompetence(int id);
 
-    List<Competence> trouverTousCompetences();
+	List<Competence> trouverTousCompetences();
 
-    Optional<Competence> trouverCompetenceParId(int id);
+	Optional<Competence> trouverCompetenceParId(int id);
 }

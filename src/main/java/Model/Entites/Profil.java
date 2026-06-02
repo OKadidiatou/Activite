@@ -7,85 +7,84 @@ import Model.Enumeration.TypeZone;
 
 public class Profil {
 
-private int id;
-private double disponibilite;
-private boolean accessInternet;
-private double capital;
-private TypeZone zone;
-private List<Competence> competences;
-private Utilisateur utilisateur;
+	private int id;
+	private double disponibilite;
+	private boolean accessInternet;
+	private double capital;
+	private TypeZone zone;
+	private List<Competence> competences;
+	private Utilisateur utilisateur;
 
-public Profil() {
-this.competences = new ArrayList<>();
-}
+	public Profil() {
+		this.competences = new ArrayList<>();
+	}
 
+	public Profil(int id, double disponibilite, boolean accessInternet, double capital, TypeZone zone,
+			List<Competence> competences, Utilisateur utilisateur) {
 
-public Profil( int id, double disponibilite, boolean accessInternet, double capital, TypeZone zone, List<Competence> competences, Utilisateur utilisateur ) {
+		this.id = id;
+		this.disponibilite = disponibilite;
+		this.accessInternet = accessInternet;
+		this.capital = capital;
+		this.zone = zone;
+		this.competences = competences;
+		this.utilisateur = utilisateur;
+	}
 
-this.id = id;
-this.disponibilite = disponibilite ;
-this.accessInternet = accessInternet;
-this.capital = capital;
-this.zone = zone;
-this.competences = competences;
-this.utilisateur = utilisateur;
-}
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 
-public int getId() {
-return id;
-}
+	public double getDisponibilite() {
+		return disponibilite;
+	}
 
-public void setId(int id) {
-this.id = id;
-}
+	public void setDisponibilite(double disponibilite) {
+		this.disponibilite = disponibilite;
+	}
 
-public double getDisponibilite() {
-return disponibilite;
-}
+	public boolean isAccessInternet() {
+		return accessInternet;
+	}
 
-public void setDisponibilite(double disponibilite) {
-this.disponibilite = disponibilite;
-}
+	public void setAccessInternet(boolean accessInternet) {
+		this.accessInternet = accessInternet;
+	}
 
-public boolean isAccessInternet() {
-return accessInternet;
-}
+	public double getCapital() {
+		return capital;
+	}
 
-public void setAccessInternet(boolean accessInternet) {
-this.accessInternet = accessInternet;
-}
+	public void setCapital(double capital) {
+		this.capital = capital;
+	}
 
-public double getCapital() {
-return capital;
-}
+	public TypeZone getZone() {
+		return zone;
+	}
 
-public void setCapital(double capital) {
-this.capital = capital;
-}
+	public void setZone(TypeZone zone) {
+		this.zone = zone;
+	}
 
-public TypeZone getZone() {
-return zone;
-}
+	public List<Competence> getCompetences() {
+		return competences;
+	}
 
-public void setZone(TypeZone zone) {
-this.zone = zone;
-}
+	public void setCompetences(List<Competence> competences) {
+		this.competences = competences;
+	}
 
-public List<Competence> getCompetences() {
-return competences;
-}
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
 
-public void setCompetences(List<Competence> competences) {
-this.competences = competences;
-}
-
-public Utilisateur getUtilisateur() {
-	return utilisateur;
-}
-
-public void setUtilisateur(Utilisateur utilisateur) {
-	this.utilisateur = utilisateur;
-}
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
 
 }

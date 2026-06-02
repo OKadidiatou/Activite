@@ -6,8 +6,6 @@ import java.util.Date;
 
 import java.util.List;
 
-
-
 public class Recommandation {
 
 	private int id;
@@ -20,17 +18,11 @@ public class Recommandation {
 
 	private Date dateAjout;
 
-	
-
 	public Recommandation() {
 
 		// TODO Auto-generated constructor stub
 
 	}
-
-
-
-	
 
 	public int getId() {
 
@@ -38,19 +30,11 @@ public class Recommandation {
 
 	}
 
-
-
-
-
 	public void setId(int id) {
 
 		this.id = id;
 
 	}
-
-
-
-
 
 	public Activite getActivite() {
 
@@ -58,19 +42,11 @@ public class Recommandation {
 
 	}
 
-
-
-
-
 	public void setActivite(Activite activite) {
 
 		this.activite = activite;
 
 	}
-
-
-
-
 
 	public Profil getProfil() {
 
@@ -78,35 +54,23 @@ public class Recommandation {
 
 	}
 
-
-
-
-
 	public void setProfil(Profil profil) {
 
 		this.profil = profil;
 
 	}
 
-	
+	public int getScore() {
 
-	  public int getScore() {
+		return score;
 
-	        return score;
+	}
 
-	    }
+	public void setScore(int score) {
 
+		this.score = score;
 
-
-	    public void setScore(int score) {
-
-	        this.score = score;
-
-	    }
-
-
-
-
+	}
 
 	public Date getDateAjout() {
 
@@ -114,16 +78,10 @@ public class Recommandation {
 
 	}
 
-
-
-
-
 	public void setDateAjout(Date dateAjout) {
 
 		this.dateAjout = dateAjout;
 
 	}
-
-
 
 }

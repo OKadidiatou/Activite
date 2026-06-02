@@ -2,7 +2,6 @@ package Controller.Activite;
 
 import jakarta.servlet.ServletException;
 
-
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,71 +25,63 @@ import Model.Utils.ConnexionDB.MySQL;
  */
 @WebServlet("/ModifierActiviteServlet")
 public class ModifierActiviteServlet extends HttpServlet {
-	//private static final long serialVersionUID = 1L;
-	
-		private ActiviteServiceInter activiteService;
+	// private static final long serialVersionUID = 1L;
 
-    @Override
-    public void init() {
-    	
-    	 Database db = new MySQL();
+	private ActiviteServiceInter activiteService;
 
- 	    CompetenceDAOImpl competenceDAO =
- 	            new CompetenceDAOImpl(db);
+	@Override
+	public void init() {
 
- 	    ActiviteCompetenceDAOImpl activiteCompetenceDAO =
- 	            new ActiviteCompetenceDAOImpl(db, competenceDAO);
+		Database db = new MySQL();
 
- 	    ActiviteDAOImpl dao =
- 	            new ActiviteDAOImpl(db, activiteCompetenceDAO);
+		CompetenceDAOImpl competenceDAO = new CompetenceDAOImpl(db);
 
- 	    activiteService = new ActiviteService(dao);
-    
-    }
+		ActiviteCompetenceDAOImpl activiteCompetenceDAO = new ActiviteCompetenceDAOImpl(db, competenceDAO);
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+		ActiviteDAOImpl dao = new ActiviteDAOImpl(db, activiteCompetenceDAO);
 
-        // récupérer id activité
-        int id = Integer.parseInt(request.getParameter("id"));
+		activiteService = new ActiviteService(dao);
 
-        Activite activite = activiteService.lire(id);
+	}
 
-        request.setAttribute("activite", activite);
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        request.getRequestDispatcher("/webapp/modifierActivite.jsp")
-               .forward(request, response);
-    }
+		// récupérer id activité
+		int id = Integer.parseInt(request.getParameter("id"));
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+		Activite activite = activiteService.lire(id);
 
-        Activite a = new Activite();
+		request.setAttribute("activite", activite);
 
-        a.setId(Integer.parseInt(request.getParameter("id")));
-        a.setNom(request.getParameter("nom"));
-        a.setDescription(request.getParameter("description"));
-        a.setEtapes(request.getParameter("etapes"));
-        a.setRisques(request.getParameter("risques"));
+		request.getRequestDispatcher("/webapp/modifierActivite.jsp").forward(request, response);
+	}
 
-        a.setDisponibilite(Double.parseDouble(request.getParameter("disponibilite")));
-        a.setAccesInternet(Boolean.parseBoolean(request.getParameter("accesInternet")));
-        a.setMateriaux(request.getParameter("materiaux"));
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        a.setCapital(Double.parseDouble(request.getParameter("capital")));
-        a.setRevenueMin(Double.parseDouble(request.getParameter("revenueMin")));
-        a.setRevenueMax(Double.parseDouble(request.getParameter("revenueMax")));
+		Activite a = new Activite();
 
-        a.setZone(
-            TypeZone.valueOf(
-                request.getParameter("zone").toUpperCase()
-            )
-        );
+		a.setId(Integer.parseInt(request.getParameter("id")));
+		a.setNom(request.getParameter("nom"));
+		a.setDescription(request.getParameter("description"));
+		a.setEtapes(request.getParameter("etapes"));
+		a.setRisques(request.getParameter("risques"));
 
-        activiteService.modifier(a);
+		a.setDisponibilite(Double.parseDouble(request.getParameter("disponibilite")));
+		a.setAccesInternet(Boolean.parseBoolean(request.getParameter("accesInternet")));
+		a.setMateriaux(request.getParameter("materiaux"));
 
-        response.sendRedirect("listeActivites");
-    }
+		a.setCapital(Double.parseDouble(request.getParameter("capital")));
+		a.setRevenueMin(Double.parseDouble(request.getParameter("revenueMin")));
+		a.setRevenueMax(Double.parseDouble(request.getParameter("revenueMax")));
+
+		a.setZone(TypeZone.valueOf(request.getParameter("zone").toUpperCase()));
+
+		activiteService.modifier(a);
+
+		response.sendRedirect("listeActivites");
+	}
 }

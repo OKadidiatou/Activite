@@ -1,7 +1,5 @@
 package Model.Service.ServiceImpl;
 
-
-
 import java.util.List;
 
 import Model.DAO.DAOInter.TacheInter;
@@ -11,62 +9,45 @@ import Model.Entites.Utilisateur;
 import Model.Enumeration.TypeRole;
 import Model.Service.ServiceInter.UtilisateurServiceInter;
 
+public class UtilisateurServiceImpl implements UtilisateurServiceInter { // ← Enlevé "abstract"
 
+	protected final UtilisateurInter utilisateurDAO;
+	protected final TacheInter roleInter;
 
-public class UtilisateurServiceImpl implements UtilisateurServiceInter {   // ← Enlevé "abstract"
+	public UtilisateurServiceImpl(UtilisateurInter utilisateurDAO, TacheInter roleInter) {
+		this.utilisateurDAO = utilisateurDAO;
+		this.roleInter = roleInter;
+	}
 
-    protected final UtilisateurInter utilisateurDAO;
-    protected final TacheInter roleInter;
+	@Override
+	public void inscription(Utilisateur utilisateur) {
 
-    public UtilisateurServiceImpl(UtilisateurInter utilisateurDAO, TacheInter roleInter) {
-        this.utilisateurDAO = utilisateurDAO;
-        this.roleInter = roleInter;
-    }
+		if (utilisateur == null) {
 
-    @Override
-    public void inscription(Utilisateur utilisateur) {
+			throw new RuntimeException("Utilisateur invalide");
+		}
 
-        if (utilisateur == null) {
+		if (utilisateur.getTelephone() == null || utilisateur.getTelephone().trim().isEmpty()) {
 
-            throw new RuntimeException(
-                    "Utilisateur invalide"
-            );
-        }
+			throw new RuntimeException("Téléphone obligatoire");
+		}
 
-        if (utilisateur.getTelephone() == null
-                || utilisateur.getTelephone().trim().isEmpty()) {
+		Utilisateur existant = utilisateurDAO.trouverParTelephone(utilisateur.getTelephone());
 
-            throw new RuntimeException(
-                    "Téléphone obligatoire"
-            );
-        }
+		if (existant != null) {
 
-        Utilisateur existant =
-                utilisateurDAO.trouverParTelephone(
-                        utilisateur.getTelephone()
-                );
+			throw new RuntimeException("Ce numéro existe déjà");
+		}
 
-        if (existant != null) {
+		if (utilisateur.getRole() == null) {
 
-            throw new RuntimeException(
-                    "Ce numéro existe déjà"
-            );
-        }
+			throw new RuntimeException("Aucun rôle associé à l'utilisateur");
+		}
 
-        if (utilisateur.getRole() == null) {
+		utilisateurDAO.creer(utilisateur);
 
-            throw new RuntimeException(
-                    "Aucun rôle associé à l'utilisateur"
-            );
-        }
-
-        utilisateurDAO.creer(utilisateur);
-
-        System.out.println(
-                "✅ Utilisateur enregistré : "
-                        + utilisateur.getTelephone()
-        );
-    }
+		System.out.println("✅ Utilisateur enregistré : " + utilisateur.getTelephone());
+	}
 
 	@Override
 	public Utilisateur connexion(String telephone, String mdp) {
@@ -140,9 +121,9 @@ public class UtilisateurServiceImpl implements UtilisateurServiceInter {   // �
 	public List<Utilisateur> afficherTousUtilisateurs() {
 		return utilisateurDAO.trouveTous();
 	}
-	
-	@Override 
-	public Utilisateur trouverParTelephone(String telephone){
+
+	@Override
+	public Utilisateur trouverParTelephone(String telephone) {
 		return this.utilisateurDAO.trouverParTelephone(telephone);
 	}
 }
