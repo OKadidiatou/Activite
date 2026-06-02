@@ -130,4 +130,18 @@ public class Activite {
 		this.revenueMax = revenueMax;
 	}
 
+public Utilisateur getUtilisateur() {
+	return utilisateur;
+}
+
+
+
+
+public void setUtilisateur(Utilisateur utilisateur) {
+	this.utilisateur = utilisateur;
+}
+
+
+
+
 }
